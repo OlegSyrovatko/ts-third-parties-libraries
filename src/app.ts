@@ -9,6 +9,8 @@ import "reflect-metadata";
 import { plainToClass } from "class-transformer";
 import { Product } from "./models/product";
 
+import { validate } from "class-validator";
+
 const products = [
   { title: "carpet", price: 10.99 },
   { title: "book2", price: 11.99 },
@@ -21,3 +23,13 @@ const loadedProsucts = plainToClass(Product, products);
 for (const prod of loadedProsucts) {
   console.log(prod.getProduct());
 }
+
+const newProduct = new Product("", -5);
+validate(newProduct).then((err) => {
+  if (err) {
+    console.log("validation error");
+    console.log(err);
+  } else {
+    console.log(newProduct.getProduct());
+  }
+});
